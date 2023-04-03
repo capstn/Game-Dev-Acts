@@ -8,7 +8,7 @@ public class Explosion : MonoBehaviour
     {
         if (explosion.gameObject.tag == "Destructible") 
         {
-            
+            Destroy(explosion.gameObject);
         }
         if (explosion.gameObject.name == "BumbirBlue") 
         {

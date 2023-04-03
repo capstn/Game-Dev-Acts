@@ -51,6 +51,6 @@ TagManager:
   - name: Player
     uniqueID: 2311547921
     locked: 0
-  - name: Bombs
+  - name: Items
     uniqueID: 2799428799
     locked: 0
