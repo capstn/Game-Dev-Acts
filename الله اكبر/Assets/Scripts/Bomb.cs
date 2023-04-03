@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] private float detonationTime = 3;
+    [SerializeField] private GameObject explosionRange;
+    [SerializeField] private float detonationTime = 4;
     private bool detonated = false;
 
     private void Start() 
@@ -16,8 +17,16 @@ public class Bomb : MonoBehaviour
     {
         if (detonated == true) 
         {
-            Destroy(gameObject, detonationTime);
+            detonationTime -= Time.deltaTime;
+
+            if (detonationTime <= .5) 
+            {
+                explosionRange.SetActive(true);
+            }
+            if (detonationTime <= 0) 
+            {
+                Destroy(gameObject);
+            }
         }
     }
-
 }
