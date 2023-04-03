@@ -10,7 +10,15 @@ namespace Characters.Control
 
         private int x;
         private int y;
-        private int speed = 10;
+        [SerializeField] private int speed;
+
+        private void Start() 
+        {
+            if (speed == 0) 
+            {
+                speed = 5;
+            }
+        }
 
         private void Update() 
         {
