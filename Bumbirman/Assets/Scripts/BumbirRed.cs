@@ -7,6 +7,7 @@ namespace Characters.Control
 {
     public class BumbirRed: MonoBehaviour
     {
+        [SerializeField] private GameObject enemy;
         [SerializeField] private Rigidbody2D character;
 
         private byte livesPlayer2 = 3;
@@ -28,7 +29,10 @@ namespace Characters.Control
 
         private void Update() 
         {
-            movePlayer();
+            if (enemy.activeSelf == true) 
+            {
+                movePlayer();
+            }
         }
 
         private void movePlayer() 

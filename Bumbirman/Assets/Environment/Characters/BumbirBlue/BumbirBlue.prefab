@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1aa019141fa1e41a699385500aac4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
   character: {fileID: 1145932919}
   speed: 0
 --- !u!50 &1145932919

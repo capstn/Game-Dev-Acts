@@ -1,16 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Characters.UserInterface;
 
 namespace Characters.GameMechanics 
 {
     public class Character : MonoBehaviour
     {
+        [SerializeField] private GameObject player1;
+        [SerializeField] private GameObject player2;
         [SerializeField] private GameObject bomb;
         [SerializeField] private Transform playerPosition1;
         [SerializeField] private GameObject playerBomb1;
         [SerializeField] private Transform playerPosition2;
         [SerializeField] private GameObject playerBomb2;
+
+        PlayerUserInterface userInterface = new PlayerUserInterface();
+
+        private bool gameOn = true;
 
         private float timer1 = 4;
         private float timer2 = 4;
@@ -18,46 +26,70 @@ namespace Characters.GameMechanics
         private byte bombsPlacedPlayer1 = 0;
         private byte bombsPlacedPlayer2 = 0;
 
+        private void Start() 
+        {
+            userInterface.setUpBoard();
+        }
+
         private void Update() 
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && bombsPlacedPlayer1 < 3) 
+            if (player1.activeSelf == false) 
             {
-                playerBomb1.SetActive(true);
-                placeBombPlayer1();
-            } 
-            else if (bombsPlacedPlayer1 == 3) 
+                gameOn = false;
+                userInterface.setPlayerName("Player 2 Wins!");
+            }
+            if (player2.activeSelf == false) 
             {
-                playerBomb1.SetActive(false);
+                gameOn = false;
+                userInterface.setPlayerName("Player 1 Wins!");
             }
 
-            if (Input.GetKeyDown(KeyCode.RightShift) && bombsPlacedPlayer2 < 3) 
+            if (gameOn == true) 
             {
-                playerBomb2.SetActive(true);
-                placeBombPlayer2();
-            } 
-            else if (bombsPlacedPlayer2 == 3) 
-            {
-                playerBomb2.SetActive(false);
-            }
-
-            if (bombsPlacedPlayer1 == 3) 
-            {
-                timer1 -= Time.deltaTime;
-
-                if(timer1 <= 0) 
+                if (Input.GetKeyDown(KeyCode.LeftShift) && bombsPlacedPlayer1 < 3) 
                 {
-                    refreshBombs1();
+                    playerBomb1.SetActive(true);
+                    placeBombPlayer1();
+                } 
+                else if (bombsPlacedPlayer1 == 3) 
+                {
+                    playerBomb1.SetActive(false);
+                }
+
+                if (Input.GetKeyDown(KeyCode.RightShift) && bombsPlacedPlayer2 < 3) 
+                {
+                    playerBomb2.SetActive(true);
+                    placeBombPlayer2();
+                } 
+                else if (bombsPlacedPlayer2 == 3) 
+                {
+                    playerBomb2.SetActive(false);
+                }
+
+                if (bombsPlacedPlayer1 == 3) 
+                {
+                    timer1 -= Time.deltaTime;
+
+                    if(timer1 <= 0) 
+                    {
+                        refreshBombs1();
+                    }
+                }
+
+                if (bombsPlacedPlayer2 == 3) 
+                {
+                    timer2 -= Time.deltaTime;
+
+                    if(timer2 <= 0) 
+                    {
+                        refreshBombs2();
+                    }
                 }
             }
 
-            if (bombsPlacedPlayer2 == 3) 
+            if (gameOn == false) 
             {
-                timer2 -= Time.deltaTime;
-
-                if(timer2 <= 0) 
-                {
-                    refreshBombs2();
-                }
+                userInterface.openVictoryBoard();
             }
         }
 
@@ -85,6 +117,11 @@ namespace Characters.GameMechanics
             bombsPlacedPlayer2 = 0;
             timer2 = 4;
             playerBomb2.SetActive(true);
+        }
+
+        public void playAgain() 
+        {
+            SceneManager.LoadScene("Level_1");
         }
     }
 }

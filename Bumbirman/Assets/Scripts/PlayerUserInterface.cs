@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace Characters.UserInterface 
 {
     public class PlayerUserInterface
     {
+        private GameObject victoryBoard;
+        private TextMeshProUGUI playerName;
+
         private GameObject playerOneHeartA;
         private GameObject playerOneHeartB;
         private GameObject playerOneHeartC;
@@ -16,6 +20,13 @@ namespace Characters.UserInterface
 
         private byte livesPlayer1;
         private byte livesPlayer2;
+
+        public void setUpBoard() 
+        {
+            playerName = GameObject.Find("PlayerName").GetComponent<TextMeshProUGUI>();
+            victoryBoard = GameObject.Find("VictoryBoard");
+            victoryBoard.SetActive(false);
+        }
 
         public void setUpLives() 
         {
@@ -89,6 +100,16 @@ namespace Characters.UserInterface
             {
                 return livesPlayer2;
             }
+        }
+
+        public void openVictoryBoard() 
+        {
+            victoryBoard.SetActive(true);
+        }
+
+        public void setPlayerName(string playerName) 
+        {
+            this.playerName.text = playerName;
         }
     }
 }
