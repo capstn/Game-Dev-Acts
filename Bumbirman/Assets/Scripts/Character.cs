@@ -86,6 +86,5 @@ namespace Characters.GameMechanics
             timer2 = 4;
             playerBomb2.SetActive(true);
         }
-
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Characters.UserInterface;
 
 namespace Characters.Control
 {
@@ -8,12 +9,17 @@ namespace Characters.Control
     {
         [SerializeField] private Rigidbody2D character;
 
+        private byte livesPlayer1 = 3;
         private int x;
         private int y;
         [SerializeField] private int speed;
 
+        PlayerUserInterface playerObject = new PlayerUserInterface();
+
         private void Start() 
         {
+            playerObject.LivesPlayer1 = livesPlayer1;
+            playerObject.setUpLives();
             if (speed == 0) 
             {
                 speed = 5;
@@ -52,6 +58,24 @@ namespace Characters.Control
             }
 
             character.velocity = new Vector2(x * speed, y *speed);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision) 
+        {
+            if (collision.gameObject.tag == "Explosion") 
+            {
+                if (livesPlayer1 != 0) 
+                {
+                    playerObject.hurtPlayer1();
+                    livesPlayer1 -= 1;
+                    playerObject.LivesPlayer1 = livesPlayer1;
+                } 
+                if (livesPlayer1 == 0)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            
         }
     
     }   
