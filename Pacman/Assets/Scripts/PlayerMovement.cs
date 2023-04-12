@@ -1,14 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
+
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float movementSpeed = 10f;
     public GameObject ghost;
     private int coinCount = 0;
+
+
+    private void Start()
+    {
+      
+    }
 
     void Update()
     {
@@ -46,16 +51,26 @@ public class PlayerMovement : MonoBehaviour
         transform.localRotation = characterRotation;
         
     }
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Coin"))
         {
-            coinCount++;
             Destroy(other.gameObject);
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
-            ghost.GetComponent<GhostScript>().ChasePacman();
+            Destroy(gameObject);
+
+            foreach (GameObject obj in Object.FindObjectsOfType<GameObject>())
+            {
+                if (obj != gameObject)
+                {
+                    Destroy(obj);
+                }
+            }
+
+            // Restart the scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
