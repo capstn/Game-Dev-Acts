@@ -5,21 +5,15 @@ using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerMovement : MonoBehaviour
-  
-
 {
     [SerializeField] float movementSpeed = 10f;
+    public GameObject ghost;
+    private int coinCount = 0;
 
-    void Start()
-    {
-
-    }
-    
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
 
         transform.position = transform.position + new Vector3(horizontalInput * movementSpeed * Time.deltaTime, verticalInput * movementSpeed * Time.deltaTime, 0);
 
@@ -41,18 +35,32 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("Vertical") < 0)
         {
             characterRotation = Quaternion.Euler(1, 1, -100);
-            Debug.Log(characterRotation);
         }
 
         if (Input.GetAxis("Vertical") > 0)
         {
             characterRotation = Quaternion.Euler(1, 1, 100);
-            Debug.Log(characterRotation);
         }
 
         transform.localScale = characterScale;
         transform.localRotation = characterRotation;
         
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Coin"))
+        {
+            coinCount++;
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            ghost.GetComponent<GhostScript>().ChasePacman();
+        }
+    }
 
+    public int GetCoinCount()
+    {
+        return coinCount;
+    }
 }
